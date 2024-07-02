@@ -74,8 +74,6 @@ where title = 'Starry Night'
 
 
 
-
-
 --4. Write a query to extract the year from the sale date of 'Guernica'.
 select title,DatePart(Year,sale_date) as Year
 from sales 
@@ -127,7 +125,7 @@ group by artworks.artist_id,name
 
 
 --8. Write a query to find the top 2 highest-priced artworks and the total quantity sold for each.
-WITH high_CTE
+WITH highest_CTE
 As
 (
 select  sales.artwork_id,title,price,Sum(quantity) as Total_Quantity
@@ -135,7 +133,7 @@ from artworks join sales on artworks.artwork_id=sales.artwork_id
 group by sales.artwork_id,title,price
 )
 select top(2) *
-from high_CTE
+from highest_CTE
 Order by price DESC
 
 
@@ -411,9 +409,8 @@ on artworks
 After insert,update,delete
 As
 Begin 
-	 
       Insert into artworks_log
-      Select artwork_id,title,'Changed'
+      Select artwork_id,title,'Update'
 	  from inserted 
 	
 ENd
@@ -484,7 +481,7 @@ Create table orders
 )
 
 Alter table products
-add constraint check  product_price >=0
+add constraint  product_price >=0 
 
 
 
